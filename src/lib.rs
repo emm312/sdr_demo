@@ -14,7 +14,7 @@ pub fn make_tone(freq: f64) -> impl FnMut() -> f64 {
     let mut t: f64 = 0.0;
 
     move || {
-        t += f64::consts::TAU * freq / (4. * SAMPLE_RATE as f64);
+        t += f64::consts::TAU * freq / (SAMPLE_RATE as f64);
         if t >= f64::consts::TAU {
             t -= f64::consts::TAU;
         }
@@ -72,7 +72,7 @@ pub fn fft_real<T: FftNum + ConstZero + Float>(mut samples: Vec<T>) -> Vec<(f64,
     let fft_o = output
         .iter()
         .enumerate()
-        .map(|(p, s)| (bin_to_freq(p as isize, samples.len() / 4), s.norm()));
+        .map(|(p, s)| (bin_to_freq(p as isize, samples.len()), s.norm()));
 
     fft_o.collect()
 }
